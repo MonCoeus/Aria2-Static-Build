@@ -245,13 +245,11 @@ rm -rf tcmalloc*
 echo "dependencies installation finished!"
 
 #Aria2 Build
+git config --global user.name "monius"
+git config --global user.email "random@monius.com"
 
 git clone $ARIA2
 cd ./aria2
-
-# Bump up version number to 1.33.1
-wget https://github.com/aria2/aria2/commit/337ed0561f448e7a751d2f425921547e57f4a907
-git am 337ed0561f448e7a751d2f425921547e57f4a907.patch
 
 git am $script_path/../../Patch/aria2-*.patch
 
@@ -259,7 +257,7 @@ git am $script_path/../../Patch/aria2-*.patch
 autoreconf -i
 
 #COMPILER AND PATH
-PREFIX=/usr
+PREFIX=/opt/aria2
 C_COMPILER="gcc"
 CXX_COMPILER="g++"
 
@@ -284,5 +282,5 @@ CXX="$CXX_COMPILER" \
 ARIA2_STATIC=yes \
 --enable-shared=no
 
-make && strip ./src/aria2c
+make && strip ./src/aria2c && make install
 echo "Aria2 Static Build Finished!"
